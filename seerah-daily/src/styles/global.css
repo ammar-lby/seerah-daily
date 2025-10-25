@@ -21,22 +21,28 @@ body {
   background-position: 0 0, 20px 20px, 0 0;
 }
 
-.card-surface {
-  @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
-}
+@layer components {
+  .card-surface {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl shadow-lg;
+  }
 
-.btn {
-  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b1c1a];
-}
-.btn-primary {
-  @apply btn bg-[rgb(var(--color-primary))] text-white hover:bg-[rgb(var(--color-primary))]/90;
-}
-.btn-outline {
-  @apply btn border border-white/20 text-white hover:bg-white/10;
-}
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b1c1a];
+  }
 
-.container-page {
-  @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b1c1a];
+    @apply bg-[rgb(var(--color-primary))] text-white hover:bg-[rgb(var(--color-primary))]/90;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b1c1a];
+    @apply border border-white/20 text-white hover:bg-white/10;
+  }
+
+  .container-page {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
 }
 
 .heading-gradient {

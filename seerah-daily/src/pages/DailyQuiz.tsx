@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { questions } from '../data/questions'
 import { findQuestionByDate, todayIso } from '../utils/date'
-import { getStreak, recordPlay } from '../services/streak'
+import { useQuizStore } from '../store/quiz'
 
 export default function DailyQuiz() {
-  const [selected, setSelected] = useState<string | null>(null)
-  const [submitted, setSubmitted] = useState(false)
-  const [streak, setStreak] = useState(getStreak())
+  const { selections, setSelected, submit, recordPlay, currentStreak, bestStreak } = useQuizStore()
 
   const today = todayIso()
   const q = useMemo(() => findQuestionByDate(questions, today), [today])
@@ -20,36 +18,35 @@ export default function DailyQuiz() {
     )
   }
 
-  const isCorrect = q ? selected === q.correctId : false
+  const sel = q ? selections[q.id] : undefined
+  const isCorrect = q && sel?.selected ? sel.selected === q.correctId : false
 
   function onSubmit() {
-    if (!selected) return
-    setSubmitted(true)
-    if (q) {
-      recordPlay(q.date, isCorrect)
-    }
-    setStreak(getStreak())
+    if (!q) return
+    const ok = submit({ id: q.id, correctId: q.correctId })
+    recordPlay(q.date, ok)
   }
 
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Today's Question</h1>
-        <div className="text-sm text-white/80">Streak: <span className="font-semibold">{streak.current}</span> • Best: {streak.best}</div>
+        <div className="text-sm text-white/80">Streak: <span className="font-semibold">{currentStreak}</span> • Best: {bestStreak}</div>
       </div>
 
       <div className="card-surface p-6 space-y-4">
         <p className="text-lg">{q.question}</p>
         <div className="grid gap-2">
           {q.choices.map(c => {
-            const chosen = selected === c.id
+            const chosen = sel?.selected === c.id
+            const submitted = sel?.submitted
             const correct = submitted && c.id === q.correctId
             const wrong = submitted && chosen && c.id !== q.correctId
             return (
               <button
                 key={c.id}
                 className={`btn-outline justify-start w-full ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''}`}
-                onClick={() => !submitted && setSelected(c.id)}
+                onClick={() => !submitted && setSelected(q.id, c.id)}
                 disabled={submitted}
               >
                 {c.text}
@@ -58,11 +55,11 @@ export default function DailyQuiz() {
           })}
         </div>
 
-        {!submitted && (
-          <button className="btn-primary" onClick={onSubmit} disabled={!selected}>Submit</button>
+        {!sel?.submitted && (
+          <button className="btn-primary" onClick={onSubmit} disabled={!sel?.selected}>Submit</button>
         )}
 
-        {submitted && (
+        {sel?.submitted && (
           <div className={`mt-2 text-sm ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
             {isCorrect ? 'Correct! ' : 'Not quite. '} {q.explanation}
           </div>
