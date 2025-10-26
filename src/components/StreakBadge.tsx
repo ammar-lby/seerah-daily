@@ -5,16 +5,18 @@ export function StreakBadge({ count }: Props) {
     <div style={{
       display: 'inline-flex',
       alignItems: 'center',
-      gap: 6,
-      padding: '8px 14px',
-      borderRadius: 8,
-      background: 'var(--secondary)',
+      gap: 3,
+      padding: '4px 8px',
+      borderRadius: 6,
+      background: 'rgba(255,255,255,0.2)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255,255,255,0.3)',
       color: 'white',
       fontWeight: 700,
-      fontSize: 14,
+      fontSize: 'clamp(11px, 2.3vw, 12px)',
     }}>
+      <span style={{ fontSize: 'clamp(12px, 2.5vw, 14px)' }}>🔥</span>
       <span>{count}</span>
-      <span style={{ fontSize: 12, fontWeight: 600, opacity: 0.9 }}>day streak</span>
     </div>
   );
 }

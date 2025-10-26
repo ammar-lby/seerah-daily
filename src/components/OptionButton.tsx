@@ -6,7 +6,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function OptionButton({ state = 'default', disabled, children, ...rest }: Props) {
   const base = {
-    padding: '12px 14px',
+    padding: 'clamp(12px, 2.5vh, 14px) clamp(14px, 3vw, 18px)',
     borderRadius: '8px',
     border: '2px solid var(--border)',
     background: 'var(--surface)',
@@ -15,7 +15,7 @@ export function OptionButton({ state = 'default', disabled, children, ...rest }:
     width: '100%',
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'all .2s ease',
-    fontSize: '15px',
+    fontSize: 'clamp(14px, 3vw, 16px)',
     fontWeight: 500,
     lineHeight: 1.5,
   };
@@ -26,15 +26,18 @@ export function OptionButton({ state = 'default', disabled, children, ...rest }:
       borderColor: 'var(--primary)',
       background: 'var(--primary-10)',
       fontWeight: 600,
+      boxShadow: '0 0 0 2px var(--primary-20)',
     },
     correct: {
       borderColor: 'var(--success)',
-      background: 'var(--success-10)',
+      background: 'var(--success-bg)',
+      color: 'var(--success-dark)',
       fontWeight: 600,
     },
     incorrect: {
       borderColor: 'var(--danger)',
-      background: 'var(--danger-10)',
+      background: 'var(--danger-bg)',
+      color: 'var(--danger)',
       fontWeight: 600,
     },
   };

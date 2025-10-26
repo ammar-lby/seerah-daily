@@ -69,8 +69,12 @@ export function useStreak() {
   }, [store]);
 
   const getAnswerForDate = useCallback((isoDate: string) => store[isoDate], [store]);
+  
+  const resetAllData = useCallback(() => {
+    setStore({});
+  }, []);
 
-  return { streak, recordAnswer, getAnswerForDate } as const;
+  return { streak, recordAnswer, getAnswerForDate, resetAllData } as const;
 }
 
 

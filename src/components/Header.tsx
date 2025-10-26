@@ -1,72 +1,125 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HelpCircle, Moon, Sun, RotateCcw } from 'lucide-react';
 import { StreakBadge } from './StreakBadge';
 import { HelpModal } from './HelpModal';
 
-type Props = { streak: number; onToggleTheme: () => void };
+type Props = { streak: number; onToggleTheme: () => void; onReset?: () => void };
 
-export function Header({ streak, onToggleTheme }: Props) {
+export function Header({ streak, onToggleTheme, onReset }: Props) {
   const [help, setHelp] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+  
+  const handleThemeToggle = () => {
+    setIsDark(!isDark);
+    onToggleTheme();
+  };
+  
+  const handleReset = () => {
+    if (confirm('Reset all progress and start over? This cannot be undone.')) {
+      onReset?.();
+      window.location.reload();
+    }
+  };
+  
   return (
     <header style={{
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 16,
-      padding: '12px 24px',
-      background: 'linear-gradient(135deg, var(--primary) 0%, var(--accent-teal) 100%)',
-      boxShadow: '0 2px 8px var(--shadow)',
-      borderBottom: '2px solid var(--secondary)',
+      gap: 'clamp(4px, 0.8vh, 6px)',
+      padding: 'clamp(8px, 1.2vh, 10px) clamp(12px, 2.5vw, 16px)',
+      background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)',
+      boxShadow: '0 2px 12px rgba(13, 127, 108, 0.12)',
+      borderBottom: '1px solid rgba(255,255,255,0.2)',
+      flexShrink: 0,
+      position: 'relative',
     }}>
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-        <div style={{
-          width: 36,
-          height: 36,
-          background: 'var(--secondary)',
-          borderRadius: '50%',
+      {/* Top right icons */}
+      <div style={{
+        position: 'absolute',
+        top: 'clamp(6px, 1vh, 8px)',
+        right: 'clamp(8px, 2vw, 12px)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+      }}>
+        <button onClick={() => setHelp(true)} style={{
+          border: 'none',
+          background: 'rgba(255,255,255,0.2)',
+          backdropFilter: 'blur(10px)',
+          color: 'white',
+          padding: 4,
+          borderRadius: 6,
+          cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 20,
-        }}>☪</div>
+          transition: 'all 0.2s ease',
+        }} title="Help">
+          <HelpCircle size={16} strokeWidth={2.5} />
+        </button>
+        {onReset && (
+          <button onClick={handleReset} style={{
+            border: 'none',
+            background: 'rgba(255,255,255,0.2)',
+            backdropFilter: 'blur(10px)',
+            color: 'white',
+            padding: 4,
+            borderRadius: 6,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease',
+          }} title="Reset Progress">
+            <RotateCcw size={16} strokeWidth={2.5} />
+          </button>
+        )}
+        <button onClick={handleThemeToggle} style={{
+          border: 'none',
+          background: 'rgba(255,255,255,0.2)',
+          backdropFilter: 'blur(10px)',
+          color: 'white',
+          padding: 4,
+          borderRadius: 6,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.2s ease',
+        }} title="Toggle theme">
+          {isDark ? <Sun size={16} strokeWidth={2.5} /> : <Moon size={16} strokeWidth={2.5} />}
+        </button>
+      </div>
+      
+      {/* Centered logo and title */}
+      <Link to="/" style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'clamp(6px, 1.2vw, 10px)',
+        textDecoration: 'none',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          fontSize: 'clamp(24px, 5vw, 32px)',
+          lineHeight: 1,
+          filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))',
+        }}>🕊️</div>
         <div>
-          <div style={{ fontWeight: 700, fontSize: 17, color: 'white' }}>
+          <div style={{
+            fontWeight: 800,
+            fontSize: 'clamp(16px, 3.5vw, 20px)',
+            color: 'white',
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+            textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          }}>
             Seerah Daily Quiz
           </div>
-          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.85)' }}>
-            Learn the Life of the Prophet ﷺ
-          </div>
         </div>
-      </Link>
-      <nav style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Link to="/practice" style={{
-          color: 'white',
-          padding: '8px 14px',
-          borderRadius: 8,
-          fontSize: 14,
-          background: 'rgba(255,255,255,0.15)',
-          border: '1px solid rgba(255,255,255,0.2)',
-        }}>Practice</Link>
-        <button onClick={() => setHelp(true)} style={{
-          border: '1px solid rgba(255,255,255,0.2)',
-          background: 'rgba(255,255,255,0.15)',
-          color: 'white',
-          padding: '8px 14px',
-          borderRadius: 8,
-          fontSize: 14,
-          cursor: 'pointer',
-        }}>Help</button>
         <StreakBadge count={streak} />
-        <button onClick={onToggleTheme} style={{
-          border: '1px solid rgba(255,255,255,0.2)',
-          background: 'rgba(255,255,255,0.15)',
-          color: 'white',
-          padding: '8px 12px',
-          borderRadius: 8,
-          cursor: 'pointer',
-          fontSize: 16,
-        }}>◐</button>
-      </nav>
+      </Link>
       <HelpModal open={help} onClose={() => setHelp(false)}>
         <p>Answer one Seerah question each day. Select an option and press Enter or Submit to reveal the answer.</p>
         <ul>

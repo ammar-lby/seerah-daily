@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { QuizCard } from '../components/QuizCard';
 import { ProgressBar } from '../components/ProgressBar';
 import { ResultsSummary } from '../components/ResultsSummary';
@@ -34,6 +34,7 @@ export function DailyPage() {
   );
   const [confetti, setConfetti] = useState(0);
   const [showResults, setShowResults] = useState(false);
+  const [reviewMode, setReviewMode] = useState(false);
 
   const current = states[currentIdx];
   const totalCorrect = states.filter((s) => s.correct).length;
@@ -54,15 +55,14 @@ export function DailyPage() {
       timestamp: Date.now(),
     });
     if (correct) setConfetti((n) => n + 1);
-    
-    // Auto advance after 1.2s, or show results if last question
-    setTimeout(() => {
-      if (currentIdx < questions.length - 1) {
-        setCurrentIdx((i) => i + 1);
-      } else {
-        setShowResults(true);
-      }
-    }, 1200);
+  }
+
+  function goToNext() {
+    if (currentIdx < questions.length - 1) {
+      setCurrentIdx((i) => i + 1);
+    } else {
+      setShowResults(true);
+    }
   }
 
   if (questions.length === 0) {
@@ -85,21 +85,21 @@ export function DailyPage() {
     );
   }
 
-  if (showResults) {
+  if (showResults && !reviewMode) {
     return (
       <div style={{
         flex: 1,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '2rem 1rem',
+        padding: 'clamp(16px, 3vh, 32px) clamp(12px, 3vw, 24px)',
       }}>
         <ResultsSummary
           correct={totalCorrect}
           total={questions.length}
           streak={streak}
           dateISO={iso}
-          onRestart={() => setShowResults(false)}
+          onRestart={() => { setReviewMode(true); setCurrentIdx(0); }}
         />
         <Confetti trigger={confetti} />
       </div>
@@ -111,53 +111,192 @@ export function DailyPage() {
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
-      padding: '16px 24px',
-      maxWidth: 900,
+      padding: 'clamp(4px, 0.6vh, 6px) clamp(6px, 1.5vw, 10px)',
+      maxWidth: 'min(900px, 100%)',
       margin: '0 auto',
       width: '100%',
+      minHeight: 0,
+      overflow: 'hidden',
+      height: '100%',
     }}>
-      <div style={{ marginBottom: 16 }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 'clamp(3px, 0.5vh, 5px)',
+        gap: 'clamp(6px, 1.5vw, 8px)',
+        flexWrap: 'wrap',
+        flexShrink: 0,
+      }}>
         <h3 style={{
-          margin: '0 0 12px',
-          fontSize: 16,
+          margin: 0,
+          fontSize: 'clamp(12px, 2.6vw, 14px)',
           fontWeight: 600,
-          color: 'var(--primary)',
-          textAlign: 'center',
+          color: reviewMode ? 'var(--secondary-dark)' : 'var(--primary)',
         }}>
-          Question {currentIdx + 1} of {questions.length}
+          {reviewMode ? '📝 ' : ''} Q{currentIdx + 1}/{questions.length}
         </h3>
+        <DailyTimer />
+      </div>
+      <div style={{ marginBottom: 'clamp(3px, 0.5vh, 5px)', flexShrink: 0 }}>
         <ProgressBar current={currentIdx + 1} total={questions.length} />
       </div>
 
-      <QuizCard
-        key={current.question.id}
-        question={current.question}
-        locked={current.submitted}
-        initialSelection={current.selected ?? undefined}
-        onAnswered={handleAnswer}
-      />
+      <div style={{ 
+        flex: 1, 
+        minHeight: 0, 
+        overflow: 'auto',
+      }}>
+        <QuizCard
+          key={current.question.id}
+          question={current.question}
+          locked={reviewMode || current.submitted}
+          initialSelection={current.selected ?? undefined}
+          onAnswered={handleAnswer}
+          onNext={!reviewMode ? goToNext : undefined}
+          isLastQuestion={currentIdx === questions.length - 1}
+        />
+      </div>
 
-      {allAnswered && !showResults && (
-        <div style={{ marginTop: 16, textAlign: 'center' }}>
+      {reviewMode && (
+        <div style={{
+          display: 'flex',
+          gap: 'clamp(8px, 2vw, 12px)',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexShrink: 0,
+          marginTop: 'clamp(8px, 1.5vh, 12px)',
+          padding: '0 clamp(4px, 1vw, 8px)',
+        }}>
           <button
-            onClick={() => setShowResults(true)}
+            onClick={() => setCurrentIdx(i => i - 1)}
+            disabled={currentIdx === 0}
             style={{
-              padding: '10px 20px',
+              padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
               borderRadius: 8,
-              border: 'none',
-              background: 'var(--primary)',
-              color: '#fff',
-              fontWeight: 600,
-              fontSize: 15,
-              cursor: 'pointer',
+              border: '2px solid var(--border)',
+              background: currentIdx === 0 ? 'var(--muted)' : 'var(--surface)',
+              color: currentIdx === 0 ? '#999' : 'var(--text)',
+              fontWeight: 700,
+              fontSize: 'clamp(12px, 2.6vw, 14px)',
+              cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
+              boxShadow: currentIdx === 0 ? 'none' : '0 2px 8px rgba(0,0,0,0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
             }}
           >
-            View Results
+            ← Previous
           </button>
+
+          <div style={{
+            display: 'flex',
+            gap: 4,
+            alignItems: 'center',
+          }}>
+            {questions.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIdx(idx)}
+                style={{
+                  width: 'clamp(8px, 2vw, 10px)',
+                  height: 'clamp(8px, 2vw, 10px)',
+                  borderRadius: '50%',
+                  border: 'none',
+                  background: idx === currentIdx ? 'var(--primary)' : states[idx].correct ? 'var(--success)' : 'var(--danger)',
+                  opacity: idx === currentIdx ? 1 : 0.4,
+                  cursor: 'pointer',
+                  padding: 0,
+                  transition: 'all 0.2s ease',
+                }}
+                title={`Question ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          {currentIdx < questions.length - 1 ? (
+            <button
+              onClick={() => setCurrentIdx(i => i + 1)}
+              style={{
+                padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
+                borderRadius: 8,
+                border: '2px solid var(--primary)',
+                background: 'var(--primary)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 'clamp(12px, 2.6vw, 14px)',
+                cursor: 'pointer',
+                boxShadow: '0 3px 10px var(--primary-20)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              Next →
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowResults(true)}
+              style={{
+                padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
+                borderRadius: 8,
+                border: '2px solid var(--secondary)',
+                background: 'var(--secondary)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 'clamp(12px, 2.6vw, 14px)',
+                cursor: 'pointer',
+                boxShadow: '0 3px 10px rgba(212, 165, 116, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              ✓ Back to Results
+            </button>
+          )}
         </div>
       )}
 
       <Confetti trigger={confetti} />
+    </div>
+  );
+}
+
+function DailyTimer() {
+  const [now, setNow] = useState(Date.now());
+  
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  
+  const msToMidnight = useMemo(() => {
+    const d = new Date();
+    d.setHours(24, 0, 0, 0);
+    return d.getTime() - now;
+  }, [now]);
+  
+  const s = Math.max(0, Math.floor(msToMidnight / 1000));
+  const hh = String(Math.floor(s / 3600)).padStart(2, '0');
+  const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const ss = String(s % 60).padStart(2, '0');
+  
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      padding: '6px 12px',
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 8,
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--muted)',
+    }}>
+      <span>🕐</span>
+      <span>Next: {hh}:{mm}:{ss}</span>
     </div>
   );
 }
