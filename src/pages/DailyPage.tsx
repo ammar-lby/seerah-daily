@@ -138,9 +138,92 @@ export function DailyPage() {
         </h3>
         <DailyTimer />
       </div>
-      <div style={{ marginBottom: 'clamp(3px, 0.5vh, 5px)', flexShrink: 0 }}>
+      <div style={{ marginBottom: 'clamp(6px, 1vh, 10px)', flexShrink: 0 }}>
         <ProgressBar current={currentIdx + 1} total={questions.length} />
       </div>
+
+      {reviewMode && (
+        <div style={{
+          display: 'flex',
+          gap: 'clamp(6px, 2vw, 10px)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          marginBottom: 'clamp(6px, 1vh, 10px)',
+        }}>
+          <button
+            onClick={() => setCurrentIdx(i => Math.max(0, i - 1))}
+            disabled={currentIdx === 0}
+            style={{
+              padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
+              borderRadius: 8,
+              border: '2px solid var(--border)',
+              background: currentIdx === 0 ? 'var(--muted)' : 'var(--surface)',
+              color: currentIdx === 0 ? '#9aa7a1' : 'var(--text)',
+              fontWeight: 700,
+              fontSize: 'clamp(12px, 2.6vw, 14px)',
+              cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
+              boxShadow: currentIdx === 0 ? 'none' : '0 2px 8px rgba(0,0,0,0.08)'
+            }}
+          >
+            ← Previous
+          </button>
+
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+            {questions.map((_, idx) => (
+              <button key={idx} onClick={() => setCurrentIdx(idx)}
+                style={{
+                  width: 'clamp(8px, 2vw, 10px)',
+                  height: 'clamp(8px, 2vw, 10px)',
+                  borderRadius: '50%',
+                  border: 'none',
+                  background: idx === currentIdx ? 'var(--primary)' : states[idx].correct ? 'var(--success)' : 'var(--danger)',
+                  opacity: idx === currentIdx ? 1 : 0.45,
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+                title={`Question ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          {currentIdx < questions.length - 1 ? (
+            <button
+              onClick={() => setCurrentIdx(i => Math.min(questions.length - 1, i + 1))}
+              style={{
+                padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
+                borderRadius: 8,
+                border: '2px solid var(--primary)',
+                background: 'var(--primary)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 'clamp(12px, 2.6vw, 14px)',
+                cursor: 'pointer',
+                boxShadow: '0 3px 10px var(--primary-20)'
+              }}
+            >
+              Next →
+            </button>
+          ) : (
+            <button
+              onClick={() => { setReviewMode(false); setShowResults(true); }}
+              style={{
+                padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
+                borderRadius: 8,
+                border: '2px solid var(--secondary)',
+                background: 'var(--secondary)',
+                color: '#fff',
+                fontWeight: 700,
+                fontSize: 'clamp(12px, 2.6vw, 14px)',
+                cursor: 'pointer',
+                boxShadow: '0 3px 10px rgba(212, 165, 116, 0.3)'
+              }}
+            >
+              ✓ Back to Results
+            </button>
+          )}
+        </div>
+      )}
 
       <div style={{ 
         flex: 1, 
@@ -158,105 +241,7 @@ export function DailyPage() {
         />
       </div>
 
-      {reviewMode && (
-        <div style={{
-          display: 'flex',
-          gap: 'clamp(8px, 2vw, 12px)',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexShrink: 0,
-          marginTop: 'clamp(8px, 1.5vh, 12px)',
-          padding: '0 clamp(4px, 1vw, 8px)',
-        }}>
-          <button
-            onClick={() => setCurrentIdx(i => i - 1)}
-            disabled={currentIdx === 0}
-            style={{
-              padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
-              borderRadius: 8,
-              border: '2px solid var(--border)',
-              background: currentIdx === 0 ? 'var(--muted)' : 'var(--surface)',
-              color: currentIdx === 0 ? '#999' : 'var(--text)',
-              fontWeight: 700,
-              fontSize: 'clamp(12px, 2.6vw, 14px)',
-              cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
-              boxShadow: currentIdx === 0 ? 'none' : '0 2px 8px rgba(0,0,0,0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-            }}
-          >
-            ← Previous
-          </button>
-
-          <div style={{
-            display: 'flex',
-            gap: 4,
-            alignItems: 'center',
-          }}>
-            {questions.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIdx(idx)}
-                style={{
-                  width: 'clamp(8px, 2vw, 10px)',
-                  height: 'clamp(8px, 2vw, 10px)',
-                  borderRadius: '50%',
-                  border: 'none',
-                  background: idx === currentIdx ? 'var(--primary)' : states[idx].correct ? 'var(--success)' : 'var(--danger)',
-                  opacity: idx === currentIdx ? 1 : 0.4,
-                  cursor: 'pointer',
-                  padding: 0,
-                  transition: 'all 0.2s ease',
-                }}
-                title={`Question ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          {currentIdx < questions.length - 1 ? (
-            <button
-              onClick={() => setCurrentIdx(i => i + 1)}
-              style={{
-                padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
-                borderRadius: 8,
-                border: '2px solid var(--primary)',
-                background: 'var(--primary)',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: 'clamp(12px, 2.6vw, 14px)',
-                cursor: 'pointer',
-                boxShadow: '0 3px 10px var(--primary-20)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              Next →
-            </button>
-          ) : (
-            <button
-              onClick={() => setShowResults(true)}
-              style={{
-                padding: 'clamp(8px, 1.8vh, 10px) clamp(16px, 3.5vw, 20px)',
-                borderRadius: 8,
-                border: '2px solid var(--secondary)',
-                background: 'var(--secondary)',
-                color: '#fff',
-                fontWeight: 700,
-                fontSize: 'clamp(12px, 2.6vw, 14px)',
-                cursor: 'pointer',
-                boxShadow: '0 3px 10px rgba(212, 165, 116, 0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              ✓ Back to Results
-            </button>
-          )}
-        </div>
-      )}
+      {/* Back to Results now lives in the top review controls when on the last question */}
 
       <Confetti trigger={confetti} />
     </div>
