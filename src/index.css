@@ -1,0 +1,4 @@
+/* Reset to minimal; theme handled in theme.css */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+img, svg { display: block; max-width: 100%; }
