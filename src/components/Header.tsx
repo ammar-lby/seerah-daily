@@ -115,7 +115,7 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
             letterSpacing: '-0.02em',
             textShadow: '0 2px 4px rgba(0,0,0,0.1)',
           }}>
-            Seerah Daily Quiz
+            Seerah Daily 
           </div>
         </div>
         <StreakBadge count={streak} />

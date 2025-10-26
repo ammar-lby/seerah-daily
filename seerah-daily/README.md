@@ -1,6 +1,6 @@
 # Seerah Daily Quiz
 
-Seerah Daily Quiz is a lightweight, mobile-first React web app that delivers one Seerah multiple-choice question per day, with immediate feedback and a short explanation. It helps build a daily habit of learning about the life of the Prophet Muhammad ﷺ. A Practice Mode lets users review previous questions anytime.
+Seerah Daily  is a lightweight, mobile-first React web app that delivers one Seerah multiple-choice question per day, with immediate feedback and a short explanation. It helps build a daily habit of learning about the life of the Prophet Muhammad ﷺ. A Practice Mode lets users review previous questions anytime.
 
 ## Features
 - Daily question with 4 choices and instant explanation

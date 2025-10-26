@@ -1,42 +1,42 @@
 :root {
-  /* Islamic-inspired elegant palette */
-  --bg: linear-gradient(135deg, #0d4b3e 0%, #165a4c 35%, #1a5d5c 70%, #1e4d5f 100%);
+  /* Islamic-inspired elegant palette (lighter, softer teals + warm gold) */
+  --bg: linear-gradient(135deg, #127a69 0%, #1a8c79 35%, #25a08d 70%, #2eb3a1 100%);
   --bg-pattern: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  --bg-overlay: rgba(255, 255, 255, 0.97);
+  --bg-overlay: rgba(255, 255, 255, 0.95);
   --panel: #ffffff;
-  --surface: #fafafa;
-  --text: #1a2e2a;
-  --muted: #5a7c72;
-  --border: #d4e4df;
-  --shadow: rgba(13, 75, 62, 0.08);
+  --surface: #f6fbf9;
+  --text: #18312c;
+  --muted: #6a8f84;
+  --border: #e2efe9;
+  --shadow: rgba(18, 122, 105, 0.10);
 
-  --primary: #0d7f6c; /* Teal - traditional Islamic */
-  --primary-dark: #0a5f52;
-  --primary-light: #10a589;
+  --primary: #16a085; /* Lighter teal */
+  --primary-dark: #117f6a;
+  --primary-light: #2ec4a6;
   --primary-ink: #ffffff;
-  --primary-10: rgba(13, 127, 108, 0.08);
-  --primary-20: rgba(13, 127, 108, 0.15);
-  --primary-30: rgba(13, 127, 108, 0.25);
+  --primary-10: rgba(22, 160, 133, 0.08);
+  --primary-20: rgba(22, 160, 133, 0.16);
+  --primary-30: rgba(22, 160, 133, 0.26);
 
-  --secondary: #d4a574; /* Warm gold */
-  --secondary-dark: #b8935f;
-  --secondary-10: rgba(212, 165, 116, 0.12);
+  --secondary: #dfb67e; /* Warmer gold */
+  --secondary-dark: #c6a06d;
+  --secondary-10: rgba(223, 182, 126, 0.14);
 
-  --success: #0d7f6c;
-  --success-dark: #0a5f52;
-  --success-light: #10a589;
-  --success-10: rgba(13, 127, 108, 0.12);
-  --success-bg: #e8f5f2;
+  --success: #16a085;
+  --success-dark: #117f6a;
+  --success-light: #2ec4a6;
+  --success-10: rgba(22, 160, 133, 0.12);
+  --success-bg: #eaf7f3;
 
-  --danger: #c85a54;
-  --danger-10: rgba(200, 90, 84, 0.12);
-  --danger-bg: #fbeaea;
+  --danger: #d97a75;
+  --danger-10: rgba(217, 122, 117, 0.14);
+  --danger-bg: #fdeeee;
 
-  --accent-teal: #0d7f6c;
-  --accent-gold: #d4a574;
-  --accent-green: #10a589;
+  --accent-teal: #16a085;
+  --accent-gold: #dfb67e;
+  --accent-green: #2ec4a6;
 
-  --link: #0d7f6c;
+  --link: #12907a;
 }
 
 /* Prevent layout overflow from padding/borders */
@@ -46,17 +46,17 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: linear-gradient(135deg, #0a2f25 0%, #0f3a32 50%, #1a2e3c 100%);
-    --bg-overlay: rgba(20, 30, 35, 0.98);
-    --panel: #1a2e35;
-    --surface: #0f1e24;
-    --text: #e8f0f2;
-    --muted: #8a9ca5;
-    --border: #2a4550;
-    --shadow: rgba(0, 0, 0, 0.4);
+    --bg: linear-gradient(135deg, #0a3a31 0%, #0e4a40 45%, #12554a 100%);
+    --bg-overlay: rgba(18, 28, 32, 0.96);
+    --panel: #102529;
+    --surface: #0c1d21;
+    --text: #e6f3f0;
+    --muted: #8aa6a0;
+    --border: #204149;
+    --shadow: rgba(0, 0, 0, 0.45);
 
-    --success-bg: rgba(10, 157, 126, 0.15);
-    --danger-bg: rgba(200, 90, 84, 0.15);
+    --success-bg: rgba(22, 160, 133, 0.16);
+    --danger-bg: rgba(217, 122, 117, 0.16);
   }
 }
 
