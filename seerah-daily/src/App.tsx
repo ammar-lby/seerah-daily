@@ -9,7 +9,7 @@ export default function App() {
       <header className="border-b border-white/10">
         <div className="container-page py-4 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
-            <span className="text-xl font-semibold heading-gradient">Seerah Daily Quiz</span>
+            <span className="text-xl font-semibold heading-gradient">Seerahly</span>
           </NavLink>
           <nav className="flex gap-3 text-sm">
             <NavLink to="/" className={({isActive}) => `btn-outline px-3 py-1.5 rounded-md ${isActive ? 'bg-white/10' : ''}`}>Home</NavLink>

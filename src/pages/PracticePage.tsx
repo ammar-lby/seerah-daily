@@ -3,18 +3,62 @@ import { getAllPreviousQuestions, QUESTIONS } from '../data/questions';
 import { todayISO } from '../lib/date';
 import { QuizCard } from '../components/QuizCard';
 import { ProgressBar } from '../components/ProgressBar';
+import { shuffle } from '../lib/random';
+
+function interleaveByCategory<T extends { category?: string }>(items: T[]): T[] {
+  const byCat = new Map<string, T[]>();
+  for (const it of items) {
+    const key = it.category ?? 'General';
+    if (!byCat.has(key)) byCat.set(key, []);
+    byCat.get(key)!.push(it);
+  }
+  // Shuffle within each category
+  for (const [k, arr] of byCat) {
+    byCat.set(k, shuffle(arr));
+  }
+  // Round-robin across categories
+  const cats = Array.from(byCat.keys());
+  const result: T[] = [];
+  let added = true;
+  while (added) {
+    added = false;
+    for (const c of cats) {
+      const arr = byCat.get(c)!;
+      if (arr.length) {
+        result.push(arr.shift()!);
+        added = true;
+      }
+    }
+  }
+  return result;
+}
 
 export function PracticePage() {
   const [idx, setIdx] = useState(0);
   const [category, setCategory] = useState<string>('All');
   const [difficulty, setDifficulty] = useState<string>('All');
+  const [order, setOrder] = useState<'Date' | 'Random'>('Random');
 
   const today = todayISO();
 
-  const categories = useMemo(() => {
-    const vals = Array.from(new Set(QUESTIONS.map((q) => q.category).filter(Boolean))) as string[];
-    return ['All', ...vals];
+  const rawCategories = useMemo(() => {
+    return Array.from(new Set(QUESTIONS.map((q) => q.category).filter(Boolean))) as string[];
   }, []);
+
+  const categoryGroups = useMemo(() => {
+    const groups = new Set<string>();
+    for (const c of rawCategories) {
+      const parts = c.split('-').map((s) => s.trim());
+      for (const p of parts) if (p) groups.add(p);
+    }
+    return Array.from(groups).sort();
+  }, [rawCategories]);
+
+  const categories = useMemo(() => {
+    // Group labels first (e.g., Battles, Revelation), then full labels (e.g., Madinan - Battles)
+    const full = rawCategories.slice().sort();
+    return ['All', ...categoryGroups, ...full];
+  }, [rawCategories, categoryGroups]);
 
   const difficulties = useMemo(() => {
     const vals = Array.from(new Set(QUESTIONS.map((q) => q.difficulty).filter(Boolean))) as string[];
@@ -26,16 +70,30 @@ export function PracticePage() {
     return prev.length ? prev : QUESTIONS; // fallback to all for early days
   }, [today]);
 
-  const items = useMemo(() => {
+  const filtered = useMemo(() => {
     let list = base;
-    if (category !== 'All') list = list.filter((q) => q.category === category);
+    if (category !== 'All') {
+      const isFull = rawCategories.includes(category);
+      list = list.filter((q) => {
+        const c = q.category ?? '';
+        return isFull ? c === category : c.includes(category);
+      });
+    }
     if (difficulty !== 'All') list = list.filter((q) => q.difficulty === difficulty);
     return list;
-  }, [base, category, difficulty]);
+  }, [base, category, difficulty, rawCategories]);
+
+  const items = useMemo(() => {
+    if (order === 'Random') {
+      // Mix categories by interleaving after within-group shuffles
+      return interleaveByCategory(filtered);
+    }
+    return filtered;
+  }, [filtered, order]);
 
   useEffect(() => {
     setIdx(0);
-  }, [category, difficulty]);
+  }, [category, difficulty, order]);
 
   const q = items[idx];
 
@@ -94,6 +152,18 @@ export function PracticePage() {
               {difficulties.map((d) => (
                 <option key={d} value={d}>{toLabel(d)}</option>
               ))}
+            </select>
+          </label>
+
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 700 }}>Order</span>
+            <select
+              className="filter-select"
+              value={order}
+              onChange={(e) => setOrder(e.target.value as 'Date' | 'Random')}
+            >
+              <option value="Random">Random</option>
+              <option value="Date">Date</option>
             </select>
           </label>
         </div>

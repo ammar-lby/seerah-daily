@@ -35,6 +35,7 @@ export default function DailyQuiz() {
       </div>
 
       <div className="card-surface p-6 space-y-4">
+        <div className="text-xs font-semibold tracking-wider text-white/80 uppercase">{q.category ?? 'General'}</div>
         <p className="text-lg">{q.question}</p>
         <div className="grid grid-cols-2 gap-2">
           {q.choices.map(c => {
@@ -45,7 +46,7 @@ export default function DailyQuiz() {
             return (
               <button
                 key={c.id}
-                className={`btn-outline justify-center w-full min-h-[64px] aspect-[3/2] transition-all ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''} ${!submitted ? 'hover:bg-gray-500/10 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400' : ''}`}
+                className={`btn-outline justify-center w-full min-h-[64px] aspect-[3/2] transition-all ${submitted ? 'text-white' : ''} ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''} ${!submitted ? 'hover:bg-gray-500/10 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400' : ''}`}
                 onClick={() => !submitted && setSelected(q.id, c.id)}
                 disabled={submitted}
               >

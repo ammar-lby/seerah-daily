@@ -71,12 +71,12 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       <div style={{
         fontSize: 'clamp(11px, 2.3vw, 13px)',
         color: 'var(--secondary-dark)',
-        marginBottom: 'clamp(8px, 1.5vh, 10px)',
+        margin: '0 0 clamp(8px, 1.5vh, 10px)',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
       }}>
-        {question.category}
+        {question.category ?? 'General'}
       </div>
       <h2 style={{
         margin: '0 0 clamp(14px, 2.5vh, 18px)',
