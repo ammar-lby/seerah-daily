@@ -108,7 +108,22 @@ export const QUESTIONS: Question[] = [
 ];
 
 export function getQuestionsByDate(dateISO: string): Question[] {
-  return QUESTIONS.filter((q) => q.datePublished === dateISO);
+  // Exact matches for the date, if present
+  const exact = QUESTIONS.filter((q) => q.datePublished === dateISO);
+  if (exact.length) return exact;
+
+  // Fallback: rotate across available dates for continuous daily availability
+  const uniqueDates = Array.from(new Set(QUESTIONS.map((q) => q.datePublished))).sort();
+  if (uniqueDates.length === 0) return [];
+
+  const first = uniqueDates[0];
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diffDays = Math.floor(
+    (new Date(dateISO).getTime() - new Date(first).getTime()) / msPerDay
+  );
+  const idx = ((diffDays % uniqueDates.length) + uniqueDates.length) % uniqueDates.length;
+  const fallbackDate = uniqueDates[idx];
+  return QUESTIONS.filter((q) => q.datePublished === fallbackDate);
 }
 
 export function getAllPreviousQuestions(beforeISO: string): Question[] {
