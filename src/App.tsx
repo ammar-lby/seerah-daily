@@ -1,8 +1,9 @@
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DailyPage } from './pages/DailyPage'
 import { useStreak } from './hooks/useStreak'
 import { Header } from './components/Header'
 import './theme.css'
+import { PracticePage } from './pages/PracticePage'
 
 function App() {
   const { streak, resetAllData } = useStreak()
@@ -16,7 +17,11 @@ function App() {
     <BrowserRouter>
       <Header streak={streak} onToggleTheme={toggleTheme} onReset={resetAllData} />
       <main className="container">
-        <DailyPage />
+        <Routes>
+          <Route path="/" element={<DailyPage />} />
+          <Route path="/practice" element={<PracticePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
       <footer style={{
         textAlign: 'center',

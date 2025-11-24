@@ -36,7 +36,7 @@ export default function DailyQuiz() {
 
       <div className="card-surface p-6 space-y-4">
         <p className="text-lg">{q.question}</p>
-        <div className="grid gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {q.choices.map(c => {
             const chosen = sel?.selected === c.id
             const submitted = sel?.submitted
@@ -45,7 +45,7 @@ export default function DailyQuiz() {
             return (
               <button
                 key={c.id}
-                className={`btn-outline justify-start w-full ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''}`}
+                className={`btn-outline justify-center w-full min-h-[64px] aspect-[3/2] transition-all ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''} ${!submitted ? 'hover:bg-gray-500/10 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400' : ''}`}
                 onClick={() => !submitted && setSelected(q.id, c.id)}
                 disabled={submitted}
               >
@@ -56,7 +56,9 @@ export default function DailyQuiz() {
         </div>
 
         {!sel?.submitted && (
-          <button className="btn-primary" onClick={onSubmit} disabled={!sel?.selected}>Submit</button>
+          <div className="flex justify-center">
+            <button className="btn-primary" onClick={onSubmit} disabled={!sel?.selected}>Submit</button>
+          </div>
         )}
 
         {sel?.submitted && (

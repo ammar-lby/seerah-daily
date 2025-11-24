@@ -5,6 +5,8 @@ export type Question = {
   choices: { id: string; text: string }[]
   correctId: string
   explanation: string
+  category?: string
+  difficulty?: 'easy' | 'medium' | 'hard'
 }
 
 // Seed: replace/expand with verified Seerah content
@@ -20,7 +22,9 @@ export const questions: Question[] = [
       { id: 'd', text: 'Jerusalem' },
     ],
     correctId: 'b',
-    explanation: 'The Prophet ﷺ was born in Makkah in the Year of the Elephant.'
+    explanation: 'The Prophet ﷺ was born in Makkah in the Year of the Elephant.',
+    category: 'Makkan',
+    difficulty: 'easy',
   },
   {
     id: 2,
@@ -33,7 +37,9 @@ export const questions: Question[] = [
       { id: 'd', text: 'Khadijah' },
     ],
     correctId: 'a',
-    explanation: 'Haleemah as-Sa’diyyah cared for the Prophet ﷺ as his wet nurse.'
+    explanation: 'Haleemah as-Sa’diyyah cared for the Prophet ﷺ as his wet nurse.',
+    category: 'Family',
+    difficulty: 'easy',
   },
 ]
 

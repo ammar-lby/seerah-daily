@@ -89,7 +89,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         {question.questionText}
       </h2>
 
-      <div style={{ display: 'grid', gap: 'clamp(10px, 2vh, 12px)' }}>
+      <div style={{ display: 'grid', gap: 'clamp(10px, 2vh, 12px)', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', alignItems: 'stretch' }}>
         {shuffledOptions.map((opt) => {
           let state: 'default' | 'selected' | 'correct' | 'incorrect' = 'default';
           if (submitted) {
@@ -112,7 +112,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
 
       <div style={{ marginTop: 'clamp(14px, 2.5vh, 18px)' }}>
         {!submitted && (
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
               onClick={onSubmit}
               disabled={locked || selected == null}

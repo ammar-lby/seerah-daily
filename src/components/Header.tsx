@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HelpCircle, Moon, Sun, RotateCcw } from 'lucide-react';
 import { StreakBadge } from './StreakBadge';
 import { HelpModal } from './HelpModal';
@@ -9,6 +9,7 @@ type Props = { streak: number; onToggleTheme: () => void; onReset?: () => void }
 export function Header({ streak, onToggleTheme, onReset }: Props) {
   const [help, setHelp] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const location = useLocation();
   
   const handleThemeToggle = () => {
     setIsDark(!isDark);
@@ -21,6 +22,8 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
       window.location.reload();
     }
   };
+  
+  const isActive = (path: string) => location.pathname === path;
   
   return (
     <header style={{
@@ -120,6 +123,35 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
         </div>
         <StreakBadge count={streak} />
       </Link>
+
+      {/* Sub navigation */}
+      <nav style={{
+        display: 'flex',
+        gap: 8,
+        marginTop: 6,
+      }}>
+        <Link to="/" style={{
+          padding: '6px 10px',
+          borderRadius: 8,
+          border: '1px solid rgba(255,255,255,0.45)',
+          color: 'white',
+          textDecoration: 'none',
+          background: isActive('/') ? 'rgba(0,0,0,0.12)' : 'transparent',
+          fontWeight: 700,
+          fontSize: 12,
+        }}>Daily</Link>
+        <Link to="/practice" style={{
+          padding: '6px 10px',
+          borderRadius: 8,
+          border: '1px solid rgba(255,255,255,0.45)',
+          color: 'white',
+          textDecoration: 'none',
+          background: isActive('/practice') ? 'rgba(0,0,0,0.12)' : 'transparent',
+          fontWeight: 700,
+          fontSize: 12,
+        }}>Practice</Link>
+      </nav>
+
       <HelpModal open={help} onClose={() => setHelp(false)}>
         <p>Answer one Seerah question each day. Select an option and press Enter or Submit to reveal the answer.</p>
         <ul>

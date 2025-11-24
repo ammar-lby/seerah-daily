@@ -210,6 +210,62 @@ button:not(:disabled):active {
   transform: translateY(0);
 }
 
+/* Hover/focus styles for quiz options */
+.option-btn {
+  outline: none;
+}
+.option-btn:not(:disabled)[data-state="default"]:hover {
+  background: rgba(0, 0, 0, 0.06); /* subtle grey */
+  border-color: #b8c0bd; /* neutral grey border */
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.08), 0 6px 18px var(--shadow);
+}
+.option-btn:not(:disabled)[data-state="selected"]:hover {
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.08), 0 6px 18px var(--shadow);
+}
+.option-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.2), 0 6px 18px var(--shadow);
+}
+
+/* Mobile-friendly filter select */
+.filter-select {
+  -webkit-appearance: menulist;
+  appearance: auto;
+  padding: 10px 12px;
+  min-height: 44px; /* iOS comfortable target */
+  border-radius: 10px;
+  border: 2px solid #d1d5db; /* gray-300 */
+  background: #e5e7eb; /* gray-200 */
+  color: var(--text);
+  font-weight: 700;
+  font-size: 14px;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.filter-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.25); /* gray-500 ring */
+  border-color: #9ca3af; /* gray-400 */
+}
+.filter-select:hover {
+  background-color: #e2e4e7; /* slightly darker gray */
+}
+
+@media (prefers-color-scheme: dark) {
+  .filter-select {
+    border-color: #4b5563; /* gray-600 */
+    background: #374151; /* gray-700 */
+    color: var(--text);
+  }
+  .filter-select:focus {
+    box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.25); /* gray-400 ring */
+    border-color: #6b7280; /* gray-500 */
+  }
+  .filter-select:hover {
+    background-color: #303642; /* slightly darker */
+  }
+}
+
 /* Gamification animations */
 @keyframes flip-in {
   0% { transform: rotateX(10deg); opacity: 0; }
