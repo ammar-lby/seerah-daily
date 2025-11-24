@@ -117,12 +117,12 @@ export function ResultsSummary({ correct, total, streak, dateISO, onRestart }: P
             fontWeight: 700,
             fontSize: 'clamp(13px, 3vw, 15px)',
             cursor: 'pointer',
-            boxShadow: '0 3px 12px var(--primary-20)',
+            boxShadow: '0 3px 12px var(--primary-20)'
           }}>
             📝 Review All Answers
           </button>
         )}
-        <ShareResults correct={correct === total} streak={streak} questionDate={dateISO} />
+        <ShareResults dateISO={dateISO} correct={correct} total={total} streak={streak} points={points} accuracyPct={pct} />
       </div>
 
       <div style={{

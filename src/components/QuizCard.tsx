@@ -4,6 +4,8 @@ import type { Question } from '../types';
 import { OptionButton } from './OptionButton';
 import { shuffle } from '../lib/random';
 import { getRandomCorrectMessage, getRandomIncorrectMessage } from '../lib/encouragement';
+import { useXP } from '../hooks/useXP';
+import { playSelect, playCorrect, playIncorrect, playXP } from '../lib/sound';
 
 type Props = {
   question: Question;
@@ -19,6 +21,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
   const [submitted, setSubmitted] = useState<boolean>(!!initialSelection);
   const [shake, setShake] = useState(false);
   const [encouragement, setEncouragement] = useState<string>('');
+  const { addXP } = useXP();
 
   const shuffledOptions = useMemo(() => shuffle(question.options), [question.options]);
 
@@ -29,6 +32,8 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
     const isCorrect = selected === question.correctAnswer;
     setSubmitted(true);
     setEncouragement(isCorrect ? getRandomCorrectMessage() : getRandomIncorrectMessage());
+    if (isCorrect) { addXP(10); playCorrect(); setTimeout(playXP, 120); }
+    else { playIncorrect(); }
     onAnswered?.(selected, isCorrect);
   }
 
@@ -40,7 +45,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       if (map[e.key] != null) {
         const i = map[e.key];
         const opt = shuffledOptions[i];
-        if (opt) setSelected(opt);
+        if (opt) { setSelected(opt); playSelect(); }
       }
       if (e.key === 'Enter') {
         if (selected == null) {
@@ -67,6 +72,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden', /* contain animations to avoid horizontal flash */
+      position: 'relative',
     }}>
       <div style={{
         fontSize: 'clamp(11px, 2.3vw, 13px)',
@@ -76,7 +82,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
       }}>
-        {question.category ?? 'General'}
+        {question.category}
       </div>
       <h2 style={{
         margin: '0 0 clamp(14px, 2.5vh, 18px)',
@@ -102,7 +108,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
               key={opt}
               state={state}
               disabled={locked || submitted}
-              onClick={() => setSelected(opt)}
+              onClick={() => { if (!submitted && !locked) { setSelected(opt); playSelect(); } }}
             >
               {opt}
             </OptionButton>

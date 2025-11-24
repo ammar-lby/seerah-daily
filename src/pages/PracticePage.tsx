@@ -41,24 +41,10 @@ export function PracticePage() {
 
   const today = todayISO();
 
-  const rawCategories = useMemo(() => {
-    return Array.from(new Set(QUESTIONS.map((q) => q.category).filter(Boolean))) as string[];
-  }, []);
-
-  const categoryGroups = useMemo(() => {
-    const groups = new Set<string>();
-    for (const c of rawCategories) {
-      const parts = c.split('-').map((s) => s.trim());
-      for (const p of parts) if (p) groups.add(p);
-    }
-    return Array.from(groups).sort();
-  }, [rawCategories]);
-
   const categories = useMemo(() => {
-    // Group labels first (e.g., Battles, Revelation), then full labels (e.g., Madinan - Battles)
-    const full = rawCategories.slice().sort();
-    return ['All', ...categoryGroups, ...full];
-  }, [rawCategories, categoryGroups]);
+    const vals = Array.from(new Set(QUESTIONS.map((q) => q.category).filter(Boolean))) as string[];
+    return ['All', ...vals];
+  }, []);
 
   const difficulties = useMemo(() => {
     const vals = Array.from(new Set(QUESTIONS.map((q) => q.difficulty).filter(Boolean))) as string[];
@@ -72,16 +58,10 @@ export function PracticePage() {
 
   const filtered = useMemo(() => {
     let list = base;
-    if (category !== 'All') {
-      const isFull = rawCategories.includes(category);
-      list = list.filter((q) => {
-        const c = q.category ?? '';
-        return isFull ? c === category : c.includes(category);
-      });
-    }
+    if (category !== 'All') list = list.filter((q) => q.category === category);
     if (difficulty !== 'All') list = list.filter((q) => q.difficulty === difficulty);
     return list;
-  }, [base, category, difficulty, rawCategories]);
+  }, [base, category, difficulty]);
 
   const items = useMemo(() => {
     if (order === 'Random') {

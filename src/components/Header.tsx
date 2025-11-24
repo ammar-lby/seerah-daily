@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HelpCircle, Moon, Sun, RotateCcw } from 'lucide-react';
+import { HelpCircle, Moon, Sun, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 import { StreakBadge } from './StreakBadge';
 import { HelpModal } from './HelpModal';
+import { useXP } from '../hooks/useXP';
+import { isSoundEnabled, setSoundEnabled } from '../lib/sound';
 
 type Props = { streak: number; onToggleTheme: () => void; onReset?: () => void };
 
 export function Header({ streak, onToggleTheme, onReset }: Props) {
   const [help, setHelp] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [sound, setSound] = useState<boolean>(isSoundEnabled());
   const location = useLocation();
+  const { xp } = useXP();
   
   const handleThemeToggle = () => {
     setIsDark(!isDark);
@@ -21,6 +25,12 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
       onReset?.();
       window.location.reload();
     }
+  };
+  
+  const toggleSound = () => {
+    const next = !sound;
+    setSound(next);
+    setSoundEnabled(next);
   };
   
   const isActive = (path: string) => location.pathname === path;
@@ -47,6 +57,21 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
         alignItems: 'center',
         gap: 4,
       }}>
+        <button onClick={toggleSound} style={{
+          border: 'none',
+          background: 'rgba(255,255,255,0.2)',
+          backdropFilter: 'blur(10px)',
+          color: 'white',
+          padding: 4,
+          borderRadius: 6,
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transition: 'all 0.2s ease',
+        }} title={sound ? 'Sound on' : 'Sound off'}>
+          {sound ? <Volume2 size={16} strokeWidth={2.5} /> : <VolumeX size={16} strokeWidth={2.5} />}
+        </button>
         <button onClick={() => setHelp(true)} style={{
           border: 'none',
           background: 'rgba(255,255,255,0.2)',
@@ -122,6 +147,16 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
           </div>
         </div>
         <StreakBadge count={streak} />
+        <div style={{
+          marginLeft: 8,
+          padding: '2px 8px',
+          borderRadius: 999,
+          border: '1px solid rgba(255,255,255,0.4)',
+          color: 'white',
+          fontWeight: 800,
+          fontSize: 12,
+          opacity: 0.95,
+        }}>XP: {xp}</div>
       </Link>
 
       {/* Sub navigation */}
