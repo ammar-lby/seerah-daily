@@ -1,16 +1,19 @@
-:root {
-  /* Islamic-inspired elegant palette (lighter, softer teals + warm gold) */
-  --bg: linear-gradient(135deg, #127a69 0%, #1a8c79 35%, #25a08d 70%, #2eb3a1 100%);
-  --bg-pattern: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  --bg-overlay: rgba(255, 255, 255, 0.95);
-  --panel: #ffffff;
-  --surface: #f6fbf9;
-  --text: #18312c;
-  --muted: #6a8f84;
-  --border: #e2efe9;
-  --shadow: rgba(18, 122, 105, 0.10);
+/* Default: Light (beige) theme */
+:root,
+[data-theme='light'] {
+  /* Strong beige/sandy background with subtle pattern */
+  --bg: linear-gradient(135deg, #f1e2c3 0%, #e8d4ad 45%, #e0c79a 100%);
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.035'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --bg-overlay: rgba(255, 253, 246, 0.96);
+  --panel: #fffaf0;          /* warm ivory panel */
+  --surface: #f7ecd7;        /* sandy surface */
+  --text: #3f3a2f;           /* deep warm brown */
+  --muted: #7f725e;          /* warm taupe */
+  --border: #e5d6bc;         /* sand border */
+  --shadow: rgba(155, 120, 60, 0.14);
 
-  --primary: #16a085; /* Lighter teal */
+  /* Brand */
+  --primary: #16a085; /* keep teal as brand accent */
   --primary-dark: #117f6a;
   --primary-light: #2ec4a6;
   --primary-ink: #ffffff;
@@ -18,7 +21,7 @@
   --primary-20: rgba(22, 160, 133, 0.16);
   --primary-30: rgba(22, 160, 133, 0.26);
 
-  --secondary: #dfb67e; /* Warmer gold */
+  --secondary: #dfb67e; /* warm gold */
   --secondary-dark: #c6a06d;
   --secondary-10: rgba(223, 182, 126, 0.14);
 
@@ -26,7 +29,7 @@
   --success-dark: #117f6a;
   --success-light: #2ec4a6;
   --success-10: rgba(22, 160, 133, 0.12);
-  --success-bg: #eaf7f3;
+  --success-bg: #f0faf6;
 
   --danger: #d97a75;
   --danger-10: rgba(217, 122, 117, 0.14);
@@ -36,7 +39,54 @@
   --accent-gold: #dfb67e;
   --accent-green: #2ec4a6;
 
-  --link: #12907a;
+  --link: #0f6e5f;
+
+  /* Header gradient colors for light (sandy) theme */
+  --header-start: #16a085;   /* teal */
+  --header-end: #2ec4a6;     /* light teal */
+
+  /* Select controls (light sandy) */
+  --select-bg: #f7ecd7;
+  --select-hover-bg: #f2e2c2;
+  --select-border: #e5d6bc;
+  --select-text: #16a085; /* teal text */
+  --select-focus-ring: rgba(22, 160, 133, 0.25);
+
+  /* Answer panel (explanation) */
+  --answer-bg: linear-gradient(135deg, rgba(255, 247, 230, 0.98) 0%, rgba(246, 237, 215, 0.98) 100%);
+  --answer-border-color: rgba(155, 120, 60, 0.22);
+  --answer-text: #3f3a2f;
+}
+
+/* Dark theme: current teal design */
+[data-theme='dark'] {
+  --bg: linear-gradient(135deg, #0a3a31 0%, #0e4a40 45%, #12554a 100%);
+  --bg-overlay: rgba(18, 28, 32, 0.96);
+  --panel: #102529;
+  --surface: #0c1d21;
+  --text: #e6f3f0;
+  --muted: #8aa6a0;
+  --border: #204149;
+  --shadow: rgba(0, 0, 0, 0.45);
+
+  --success-bg: rgba(22, 160, 133, 0.16);
+  --danger-bg: rgba(217, 122, 117, 0.16);
+
+  /* Header gradient colors for dark (teal) theme */
+  --header-start: #16a085;
+  --header-end: #2ec4a6;
+
+  /* Select controls (dark) */
+  --select-bg: #102529;
+  --select-hover-bg: #0f2a2f;
+  --select-border: #204149;
+  --select-text: #2ec4a6; /* teal text */
+  --select-focus-ring: rgba(46, 196, 166, 0.25);
+
+  /* Answer panel (explanation) */
+  --answer-bg: linear-gradient(135deg, rgba(6, 34, 38, 0.92) 0%, rgba(16, 53, 60, 0.92) 100%);
+  --answer-border-color: rgba(255, 255, 255, 0.12);
+  --answer-text: #ffffff;
 }
 
 /* Prevent layout overflow from padding/borders */
@@ -44,21 +94,7 @@
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: linear-gradient(135deg, #0a3a31 0%, #0e4a40 45%, #12554a 100%);
-    --bg-overlay: rgba(18, 28, 32, 0.96);
-    --panel: #102529;
-    --surface: #0c1d21;
-    --text: #e6f3f0;
-    --muted: #8aa6a0;
-    --border: #204149;
-    --shadow: rgba(0, 0, 0, 0.45);
-
-    --success-bg: rgba(22, 160, 133, 0.16);
-    --danger-bg: rgba(217, 122, 117, 0.16);
-  }
-}
+/* (Optional) If no explicit theme set, keep light as default via :root */
 
 html, body, #root {
   height: 100%;
@@ -84,13 +120,15 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-height: 100vh;
+  height: 100dvh;            /* better on mobile toolbars */
+  max-height: 100dvh;
   width: 100%;
   max-width: 100vw;
   background: var(--bg-overlay);
   overflow: hidden;
   overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .container {
@@ -103,6 +141,7 @@ body {
   overflow: hidden;
   overflow-x: hidden;
   min-height: 0;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Fully hide scrollbars (we already lock scroll) */
@@ -285,37 +324,34 @@ button:not(:disabled):active {
   padding: 10px 12px;
   min-height: 44px; /* iOS comfortable target */
   border-radius: 10px;
-  border: 2px solid #d1d5db; /* gray-300 */
-  background: #e5e7eb; /* gray-200 */
-  color: var(--text);
+  border: 1.5px solid var(--select-border);
+  background: var(--select-bg);
+  color: var(--select-text);
   font-weight: 700;
   font-size: 14px;
-  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+  box-shadow: 0 1px 3px var(--shadow);
+  transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .1s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 .filter-select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.25); /* gray-500 ring */
-  border-color: #9ca3af; /* gray-400 */
+  box-shadow: 0 0 0 3px var(--select-focus-ring);
+  border-color: var(--select-border);
 }
 .filter-select:hover {
-  background-color: #e2e4e7; /* slightly darker gray */
+  background-color: var(--select-hover-bg);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+.filter-select:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px var(--shadow);
 }
 
-@media (prefers-color-scheme: dark) {
-  .filter-select {
-    border-color: #4b5563; /* gray-600 */
-    background: #374151; /* gray-700 */
-    color: var(--text);
-  }
-  .filter-select:focus {
-    box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.25); /* gray-400 ring */
-    border-color: #6b7280; /* gray-500 */
-  }
-  .filter-select:hover {
-    background-color: #303642; /* slightly darker */
-  }
+.filter-select option {
+  color: var(--select-text);
+  background: var(--select-bg);
 }
 
 /* Gamification animations */

@@ -43,7 +43,7 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
       gap: 'clamp(2px, 0.5vh, 4px)',
       padding: 'clamp(6px, 1vh, 8px) clamp(12px, 2.5vw, 16px)',
       paddingTop: 'clamp(16px, 4.5vh, 28px)',
-      background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)',
+      background: 'linear-gradient(135deg, var(--header-start) 0%, var(--header-end) 100%)',
       boxShadow: '0 2px 12px rgba(13, 127, 108, 0.12)',
       borderBottom: '1px solid rgba(255,255,255,0.2)',
       flexShrink: 0,

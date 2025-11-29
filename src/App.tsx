@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { DailyPage } from './pages/DailyPage'
 import { useStreak } from './hooks/useStreak'
 import { Header } from './components/Header'
@@ -7,6 +8,13 @@ import { PracticePage } from './pages/PracticePage'
 
 function App() {
   const { streak, resetAllData } = useStreak()
+
+  useEffect(() => {
+    const current = document.documentElement.getAttribute('data-theme')
+    if (!current) {
+      document.documentElement.setAttribute('data-theme', 'light')
+    }
+  }, [])
 
   function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme')

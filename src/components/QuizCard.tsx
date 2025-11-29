@@ -145,9 +145,9 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         <div className="bounce-in" style={{
           padding: 'clamp(10px, 2vh, 14px)',
           borderRadius: 12,
-          background: 'linear-gradient(135deg, rgba(6, 34, 38, 0.92) 0%, rgba(16, 53, 60, 0.92) 100%)',
-          border: '1.5px solid rgba(255,255,255,0.12)',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+          background: 'var(--answer-bg)',
+          border: '1.5px solid var(--answer-border-color)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
           position: 'relative',
         }}>
           {/* Streak indicator for correct answers */}
@@ -189,7 +189,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
                         {correct && <Zap size={14} color="var(--secondary)" fill="var(--secondary)" />}
                       </div>
                       <div style={{
-                        color: '#ffffff',
+                        color: 'var(--answer-text)',
                         lineHeight: 1.65,
                         fontSize: 'clamp(12px, 2.5vw, 14px)',
                         fontWeight: 500,

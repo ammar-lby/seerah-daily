@@ -35,7 +35,7 @@ export function ResultsSummary({ correct, total, streak, dateISO, onRestart }: P
       textAlign: 'center',
     }}>
       <div style={{ fontSize: 'clamp(40px, 10vw, 56px)', marginBottom: 12 }}>
-        {isPerfect ? '🎉' : correct >= 3 ? '✨' : '📚'}
+        {isPerfect ? '🎉' : correct >= 3 ? '✨' : '🕌'}
       </div>
       
       <h2 style={{ margin: '0 0 8px', fontSize: 'clamp(20px, 5vw, 26px)', fontWeight: 800, letterSpacing: '-0.03em' }}>
@@ -101,10 +101,7 @@ export function ResultsSummary({ correct, total, streak, dateISO, onRestart }: P
         </div>
       </div>
 
-      <div style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 8 }}>Last 7 days</div>
-        <StreakCalendar />
-      </div>
+      {/* Streak calendar removed per design request */}
 
       <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
         {onRestart && (
