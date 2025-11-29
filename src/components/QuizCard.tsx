@@ -142,7 +142,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         )}
 
         {submitted && (
-        <div className="bounce-in" style={{
+        <div className="answer-panel bounce-in" style={{
           padding: 'clamp(10px, 2vh, 14px)',
           borderRadius: 12,
           background: 'var(--answer-bg)',
@@ -193,6 +193,8 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
                         lineHeight: 1.65,
                         fontSize: 'clamp(12px, 2.5vw, 14px)',
                         fontWeight: 500,
+                        overflowWrap: 'anywhere',
+                        wordBreak: 'break-word',
                       }}>
                         {question.explanation}
                       </div>

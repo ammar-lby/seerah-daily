@@ -37,7 +37,6 @@ export function PracticePage() {
   const [idx, setIdx] = useState(0);
   const [category, setCategory] = useState<string>('All');
   const [difficulty, setDifficulty] = useState<string>('All');
-  const [order, setOrder] = useState<'Date' | 'Random'>('Random');
 
   const today = todayISO();
 
@@ -64,16 +63,13 @@ export function PracticePage() {
   }, [base, category, difficulty]);
 
   const items = useMemo(() => {
-    if (order === 'Random') {
-      // Mix categories by interleaving after within-group shuffles
-      return interleaveByCategory(filtered);
-    }
-    return filtered;
-  }, [filtered, order]);
+    // Always interleave for variety
+    return interleaveByCategory(filtered);
+  }, [filtered]);
 
   useEffect(() => {
     setIdx(0);
-  }, [category, difficulty, order]);
+  }, [category, difficulty]);
 
   const q = items[idx];
 
@@ -98,21 +94,11 @@ export function PracticePage() {
       width: '100%',
     }}>
       
-      <div style={{ marginBottom: 16 }}>
-        <h3 style={{
-          margin: '0 0 12px',
-          fontSize: 16,
-          fontWeight: 600,
-          color: 'var(--primary)',
-          textAlign: 'center',
-        }}>
-          Practice Mode
-        </h3>
-
+      <div style={{ marginBottom: 12 }}>
         {/* Filters */}
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 700 }}>Topic</span>
+        <div className="filters-row slide-up" style={{ marginBottom: 10 }}>
+          <label>
+            <span style={{ color: 'var(--muted)', fontSize: 12, fontWeight: 800, letterSpacing: '0.02em' }}>Topic</span>
             <select
               className="filter-select"
               value={category}
@@ -124,8 +110,8 @@ export function PracticePage() {
             </select>
           </label>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 700 }}>Difficulty</span>
+          <label>
+            <span style={{ color: 'var(--muted)', fontSize: 12, fontWeight: 800, letterSpacing: '0.02em' }}>Difficulty</span>
             <select
               className="filter-select"
               value={difficulty}
@@ -136,18 +122,58 @@ export function PracticePage() {
               ))}
             </select>
           </label>
+        </div>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 700 }}>Order</span>
-            <select
-              className="filter-select"
-              value={order}
-              onChange={(e) => setOrder(e.target.value as 'Date' | 'Random')}
-            >
-              <option value="Random">Random</option>
-              <option value="Date">Date</option>
-            </select>
-          </label>
+        {/* Navigation under filters */}
+        <div className="slide-up" style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 8, flexWrap: 'wrap' }}>
+          <button
+            onClick={prev}
+            disabled={idx === 0}
+            aria-label="Previous question"
+            style={{
+              padding: '8px 12px',
+              borderRadius: 999,
+              border: '1.5px solid var(--border)',
+              background: 'var(--surface)',
+              color: idx === 0 ? 'var(--muted)' : 'var(--text)',
+              fontWeight: 700,
+              fontSize: 14,
+              cursor: idx === 0 ? 'not-allowed' : 'pointer',
+              boxShadow: idx === 0 ? 'none' : '0 1px 6px var(--shadow)',
+              minHeight: 40,
+              minWidth: 40,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              transition: 'transform .12s ease, box-shadow .12s ease',
+            }}
+          >
+            ← Prev
+          </button>
+          <button
+            onClick={next}
+            disabled={idx === items.length - 1}
+            aria-label="Next question"
+            style={{
+              padding: '8px 12px',
+              borderRadius: 999,
+              border: '2px solid var(--primary)',
+              background: idx === items.length - 1 ? 'var(--surface)' : 'var(--primary)',
+              color: idx === items.length - 1 ? 'var(--muted)' : '#fff',
+              fontWeight: 800,
+              fontSize: 14,
+              cursor: idx === items.length - 1 ? 'not-allowed' : 'pointer',
+              boxShadow: idx === items.length - 1 ? 'none' : '0 3px 10px var(--primary-20)',
+              minHeight: 40,
+              minWidth: 40,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              transition: 'transform .12s ease, box-shadow .12s ease',
+            }}
+          >
+            Next →
+          </button>
         </div>
 
         <ProgressBar current={Math.min(idx + 1, items.length || 1)} total={items.length || 1} />
@@ -155,51 +181,11 @@ export function PracticePage() {
 
       {q ? (
         <>
-          <QuizCard key={q.id} question={q} />
-
-          {/* Arrow pager directly below quiz */}
-          <div style={{ display: 'flex', gap: 12, marginTop: 10, justifyContent: 'center' }}>
-            <button
-              onClick={prev}
-              disabled={idx === 0}
-              style={{
-                padding: '8px 14px',
-                borderRadius: 8,
-                border: 'none',
-                background: 'var(--surface)',
-                color: idx === 0 ? 'var(--muted)' : 'var(--text)',
-                fontWeight: 600,
-                fontSize: 16,
-                cursor: idx === 0 ? 'not-allowed' : 'pointer',
-                opacity: 1,
-                boxShadow: '0 1px 4px var(--shadow)',
-                border: '1px solid var(--border)',
-              }}
-              aria-label="Previous question"
-            >
-              ←
-            </button>
-            <button
-              onClick={next}
-              disabled={idx === items.length - 1}
-              style={{
-                padding: '8px 14px',
-                borderRadius: 8,
-                border: 'none',
-                background: 'var(--surface)',
-                color: idx === items.length - 1 ? 'var(--muted)' : 'var(--text)',
-                fontWeight: 600,
-                fontSize: 16,
-                cursor: idx === items.length - 1 ? 'not-allowed' : 'pointer',
-                opacity: 1,
-                boxShadow: '0 1px 4px var(--shadow)',
-                border: '1px solid var(--border)',
-              }}
-              aria-label="Next question"
-            >
-              →
-            </button>
+          <div style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+            <QuizCard key={q.id} question={q} />
           </div>
+
+          
         </>
       ) : (
         <div className="card-surface p-6" style={{ textAlign: 'center', color: 'var(--muted)', fontWeight: 700 }}>No questions match your filters yet.</div>

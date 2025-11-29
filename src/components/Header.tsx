@@ -42,7 +42,7 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
       alignItems: 'center',
       gap: 'clamp(2px, 0.5vh, 4px)',
       padding: 'clamp(6px, 1vh, 8px) clamp(12px, 2.5vw, 16px)',
-      paddingTop: 'clamp(16px, 4.5vh, 28px)',
+      paddingTop: 'clamp(22px, 5.5vh, 34px)',
       background: 'linear-gradient(135deg, var(--header-start) 0%, var(--header-end) 100%)',
       boxShadow: '0 2px 12px rgba(13, 127, 108, 0.12)',
       borderBottom: '1px solid rgba(255,255,255,0.2)',
@@ -129,7 +129,7 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: 0,
+        gap: 2,
         maxWidth: '70vw',
       }}>
         <div className="xp-chip" style={{
@@ -141,12 +141,12 @@ export function Header({ streak, onToggleTheme, onReset }: Props) {
           fontSize: 12,
           opacity: 0.95,
         }}>XP: {xp}</div>
-        <div style={{ transform: 'scale(0.92)', transformOrigin: 'left center', marginTop: 'clamp(4px, 0.6vh, 8px)' }}>
+        <div style={{ marginTop: 4 }}>
           <StreakBadge count={streak} />
         </div>
       </div>
       {/* Title row wrapper: centers title */}
-      <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', marginTop: 'clamp(6px, 1.2vh, 10px)' }}>
         {/* Centered logo and title */}
         <Link to="/" style={{
           display: 'flex',

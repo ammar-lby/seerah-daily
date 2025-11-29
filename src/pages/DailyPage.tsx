@@ -155,19 +155,23 @@ export function DailyPage() {
             onClick={() => setCurrentIdx(i => Math.max(0, i - 1))}
             disabled={currentIdx === 0}
             style={{
-              padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
-              borderRadius: 8,
-              border: '2px solid var(--border)',
+              padding: '8px 12px',
+              borderRadius: 999,
+              border: '1.5px solid var(--border)',
               background: 'var(--surface)',
               color: currentIdx === 0 ? 'var(--muted)' : 'var(--text)',
               fontWeight: 700,
-              fontSize: 'clamp(12px, 2.6vw, 14px)',
+              fontSize: 14,
               cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
-              opacity: 1,
-              boxShadow: currentIdx === 0 ? 'none' : '0 2px 8px rgba(0,0,0,0.08)'
+              boxShadow: currentIdx === 0 ? 'none' : '0 1px 6px var(--shadow)',
+              minHeight: 40,
+              minWidth: 40,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6
             }}
           >
-            ← Previous
+            ← Prev
           </button>
 
           <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
@@ -192,15 +196,20 @@ export function DailyPage() {
             <button
               onClick={() => setCurrentIdx(i => Math.min(questions.length - 1, i + 1))}
               style={{
-                padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
-                borderRadius: 8,
+                padding: '8px 12px',
+                borderRadius: 999,
                 border: '2px solid var(--primary)',
                 background: 'var(--primary)',
                 color: '#fff',
-                fontWeight: 700,
-                fontSize: 'clamp(12px, 2.6vw, 14px)',
+                fontWeight: 800,
+                fontSize: 14,
                 cursor: 'pointer',
-                boxShadow: '0 3px 10px var(--primary-20)'
+                boxShadow: '0 3px 10px var(--primary-20)',
+                minHeight: 40,
+                minWidth: 40,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6
               }}
             >
               Next →
