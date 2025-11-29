@@ -6,7 +6,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function OptionButton({ state = 'default', disabled, children, ...rest }: Props) {
   const base = {
-    padding: 'clamp(12px, 2.5vh, 14px) clamp(14px, 3vw, 18px)',
+    padding: 'clamp(10px, 2vh, 12px) clamp(12px, 2.6vw, 16px)',
     borderRadius: '10px',
     border: '2px solid var(--border)',
     background: 'var(--surface)',
@@ -18,7 +18,7 @@ export function OptionButton({ state = 'default', disabled, children, ...rest }:
     fontSize: 'clamp(14px, 3vw, 16px)',
     fontWeight: 600,
     lineHeight: 1.4,
-    minHeight: 'clamp(64px, 16vh, 120px)',
+    minHeight: 'clamp(52px, 12vh, 96px)',
   } as const;
 
   const styles: Record<string, React.CSSProperties> = {
