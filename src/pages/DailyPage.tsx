@@ -158,11 +158,12 @@ export function DailyPage() {
               padding: 'clamp(7px, 1.6vh, 9px) clamp(14px, 3.2vw, 18px)',
               borderRadius: 8,
               border: '2px solid var(--border)',
-              background: currentIdx === 0 ? 'var(--muted)' : 'var(--surface)',
-              color: currentIdx === 0 ? '#9aa7a1' : 'var(--text)',
+              background: 'var(--surface)',
+              color: currentIdx === 0 ? 'var(--muted)' : 'var(--text)',
               fontWeight: 700,
               fontSize: 'clamp(12px, 2.6vw, 14px)',
               cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
+              opacity: 1,
               boxShadow: currentIdx === 0 ? 'none' : '0 2px 8px rgba(0,0,0,0.08)'
             }}
           >

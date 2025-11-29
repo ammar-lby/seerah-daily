@@ -46,7 +46,7 @@ export default function DailyQuiz() {
             return (
               <button
                 key={c.id}
-                className={`btn-outline justify-center w-full min-h-[64px] aspect-[3/2] transition-all ${submitted ? 'text-white' : ''} ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''} ${!submitted ? 'hover:bg-gray-500/10 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400' : ''}`}
+                className={`quiz-choice btn-outline justify-center w-full min-h-[64px] aspect-[3/2] transition-all ${submitted ? 'text-white' : ''} ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''} ${!submitted ? 'hover:bg-gray-500/10 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400' : ''}`}
                 onClick={() => !submitted && setSelected(q.id, c.id)}
                 disabled={submitted}
               >
@@ -57,7 +57,7 @@ export default function DailyQuiz() {
         </div>
 
         {!sel?.submitted && (
-          <div className="flex justify-center">
+          <div className="action-bar flex justify-center">
             <button className="btn-primary" onClick={onSubmit} disabled={!sel?.selected}>Submit</button>
           </div>
         )}

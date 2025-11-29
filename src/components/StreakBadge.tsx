@@ -5,7 +5,7 @@ export function StreakBadge({ count }: Props) {
     <div style={{
       display: 'inline-flex',
       alignItems: 'center',
-      gap: 3,
+      gap: 6,
       padding: '4px 8px',
       borderRadius: 6,
       background: 'rgba(255,255,255,0.2)',
@@ -15,7 +15,7 @@ export function StreakBadge({ count }: Props) {
       fontWeight: 700,
       fontSize: 'clamp(11px, 2.3vw, 12px)',
     }}>
-      <span style={{ fontSize: 'clamp(12px, 2.5vw, 14px)' }}>🔥</span>
+      <span style={{ fontSize: 'clamp(12px, 2.5vw, 14px)', marginRight: 2 }}>🔥</span>
       <span>{count}</span>
     </div>
   );

@@ -7,86 +7,63 @@ type Props = {
   accuracyPct: number;
 };
 
-function theme() {
-	// Force light theme palette
-	return {
-		bgStart: '#117f6a', bgEnd: '#2ec4a6',
-		panel: 'rgba(255,255,255,0.94)',
-		text: '#18312c', sub: '#6a8f84',
-		primary: '#117f6a', accent: '#dfb67e',
-		cardBg: 'rgba(16, 53, 60, 0.05)', cardStroke: 'rgba(24,49,44,0.12)',
-		shadow: 'rgba(0,0,0,0.15)'
-	}
-}
-
 function drawShareCard(canvas: HTMLCanvasElement, opts: { date?: string; correct: number; total: number; streak: number; points: number; accuracyPct: number }) {
 	const w = 1200, h = 630; // social-friendly size
-	canvas.width = w; canvas.height = h;
+	const dpr = Math.min(window.devicePixelRatio || 1, 2);
+	canvas.width = Math.floor(w * dpr); canvas.height = Math.floor(h * dpr);
+	canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
 	const ctx = canvas.getContext('2d')!;
-	const t = theme();
+	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
 	// Background gradient
 	const g = ctx.createLinearGradient(0, 0, w, h);
-	g.addColorStop(0, t.bgStart);
-	g.addColorStop(1, t.bgEnd);
+	g.addColorStop(0, '#117f6a');
+	g.addColorStop(1, '#2ec4a6');
 	ctx.fillStyle = g;
 	ctx.fillRect(0, 0, w, h);
 
-	// Subtle diagonal pattern overlay
+	// Panel with soft shadow
 	ctx.save();
-	ctx.globalAlpha = 0.06;
-	ctx.strokeStyle = '#ffffff';
-	for (let x = -h; x < w; x += 40) {
-		ctx.beginPath();
-		ctx.moveTo(x, 0);
-		ctx.lineTo(x + h, h);
-		ctx.stroke();
-	}
-	ctx.restore();
-
-	// Panel with shadow
-	ctx.save();
-	ctx.shadowColor = t.shadow;
-	ctx.shadowBlur = 24;
+	ctx.shadowColor = 'rgba(0,0,0,0.18)';
+	ctx.shadowBlur = 28;
 	roundRect(ctx, 60, 60, w - 120, h - 120, 28, false, false);
-	ctx.fillStyle = t.panel;
+	ctx.fillStyle = 'rgba(255,255,255,0.96)';
 	ctx.fill();
 	ctx.restore();
 
 	// Header brand row
-	// Emblem
-	const headerY = 120;
+	const headerY = 140;
+	// Emblem circle
 	ctx.beginPath();
-	ctx.arc(100, headerY - 14, 22, 0, Math.PI * 2);
-	ctx.fillStyle = t.accent;
+	ctx.arc(102, headerY - 20, 22, 0, Math.PI * 2);
+	ctx.fillStyle = '#dfb67e';
 	ctx.fill();
-	// Small inner mark
+	// Inner mark
 	ctx.beginPath();
-	ctx.arc(100, headerY - 14, 10, 0, Math.PI * 2);
-	ctx.fillStyle = t.primary;
+	ctx.arc(102, headerY - 20, 10, 0, Math.PI * 2);
+	ctx.fillStyle = '#117f6a';
 	ctx.fill();
 	// Brand text
-	ctx.fillStyle = t.text;
+	ctx.fillStyle = '#18312c';
 	ctx.font = '800 64px "Plus Jakarta Sans", Segoe UI, Arial';
 	ctx.fillText('Seerahly', 150, headerY);
-	ctx.fillStyle = t.sub;
+	// Date subtitle
+	ctx.fillStyle = '#6a8f84';
 	ctx.font = '700 28px "Plus Jakarta Sans", Segoe UI, Arial';
-	ctx.fillText(opts.date ? `Date: ${opts.date}` : 'Daily Quiz', 150, headerY + 34);
+	ctx.fillText(opts.date ? `Date: ${opts.date}` : 'Daily Quiz', 150, headerY + 32);
 
 	// Divider
-	ctx.strokeStyle = t.sub;
-	ctx.globalAlpha = 0.15;
+	ctx.strokeStyle = 'rgba(24,49,44,0.15)';
 	ctx.lineWidth = 2;
 	ctx.beginPath();
-	ctx.moveTo(90, headerY + 56);
-	ctx.lineTo(w - 90, headerY + 56);
+	ctx.moveTo(90, headerY + 50);
+	ctx.lineTo(w - 90, headerY + 50);
 	ctx.stroke();
-	ctx.globalAlpha = 1;
 
 	// Stats tiles
-	const gridTop = headerY + 120;
+	const gridTop = headerY + 100;
 	const tileW = Math.floor((w - 220) / 3);
-	const tileH = 160;
+	const tileH = 168;
 	const tiles = [
 		{ label: 'Correct', value: `${opts.correct}/${opts.total}` },
 		{ label: 'Accuracy', value: `${opts.accuracyPct}%` },
@@ -95,30 +72,29 @@ function drawShareCard(canvas: HTMLCanvasElement, opts: { date?: string; correct
 	for (let i = 0; i < tiles.length; i++) {
 		const x = 90 + i * (tileW + 20);
 		// tile background
-		ctx.fillStyle = t.cardBg;
+		ctx.fillStyle = 'rgba(16, 53, 60, 0.05)';
 		roundRect(ctx, x, gridTop, tileW, tileH, 18, true, false);
 		// tile stroke
-		ctx.strokeStyle = t.cardStroke;
+		ctx.strokeStyle = 'rgba(24,49,44,0.12)';
 		ctx.lineWidth = 2;
 		roundRect(ctx, x, gridTop, tileW, tileH, 18, false, true);
 		// value
-		ctx.fillStyle = t.text;
+		ctx.fillStyle = '#18312c';
 		ctx.font = '800 56px "Plus Jakarta Sans", Segoe UI, Arial';
-		ctx.fillText(tiles[i].value, x + 24, gridTop + 80);
+		ctx.fillText(tiles[i].value, x + 24, gridTop + 84);
 		// label
-		ctx.fillStyle = t.sub;
+		ctx.fillStyle = '#6a8f84';
 		ctx.font = '700 24px "Plus Jakarta Sans", Segoe UI, Arial';
-		ctx.fillText(tiles[i].label, x + 24, gridTop + 112);
+		ctx.fillText(tiles[i].label, x + 24, gridTop + 116);
 	}
 
-	// Streak badge row
-	const streakY = gridTop + tileH + 60;
-	ctx.fillStyle = t.text;
+	// Streak row
+	ctx.fillStyle = '#18312c';
 	ctx.font = '800 48px "Plus Jakarta Sans", Segoe UI, Arial';
-	ctx.fillText(`Streak: ${opts.streak} day${opts.streak === 1 ? '' : 's'}`, 90, streakY);
+	ctx.fillText(`Streak: ${opts.streak} day${opts.streak === 1 ? '' : 's'}`, 90, gridTop + tileH + 68);
 
 	// Domain watermark bottom-right
-	ctx.fillStyle = t.sub;
+	ctx.fillStyle = '#6a8f84';
 	ctx.font = '700 28px "Plus Jakarta Sans", Segoe UI, Arial';
 	const domain = 'seerahly.com';
 	const wText = ctx.measureText(domain).width;
@@ -167,7 +143,15 @@ export function ShareResults({ dateISO, correct, total, streak, points, accuracy
 	}
 	return (
 		<button onClick={share} style={{
-			padding: '6px 10px', borderRadius: 10, border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)'
+			display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+			padding: 'clamp(12px, 2.8vh, 14px) clamp(18px, 4.5vw, 24px)',
+			borderRadius: 12,
+			border: '2px solid #204149',
+			background: '#102529',
+			color: '#e6f3f0',
+			fontWeight: 800,
+			fontSize: 'clamp(13px, 3.2vw, 15px)',
+			boxShadow: '0 6px 16px rgba(0,0,0,0.25)'
 		}}>Share</button>
 	);
 }

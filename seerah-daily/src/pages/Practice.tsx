@@ -137,7 +137,7 @@ export default function Practice() {
 								return (
 									<button
 										key={c.id}
-										className={`btn-outline justify-center w-full min-h-[64px] aspect-[3/2] ${submitted ? 'text-white' : ''} ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''}`}
+										className={`quiz-choice btn-outline justify-center w-full min-h-[64px] aspect-[3/2] ${submitted ? 'text-white' : ''} ${chosen ? 'bg-white/10' : ''} ${correct ? 'border-green-500/60 bg-green-500/10' : ''} ${wrong ? 'border-red-500/60 bg-red-500/10' : ''}`}
 										onClick={() => active && !submitted && setSelected(active.id, c.id)}
 										disabled={submitted}
 									>
@@ -147,7 +147,9 @@ export default function Practice() {
 							})}
 						</div>
 						{!sel?.submitted && active && (
-							<button className="btn-primary" onClick={() => submit({ id: active.id, correctId: active.correctId })} disabled={!sel?.selected}>Check</button>
+							<div className="action-bar flex justify-center">
+								<button className="btn-primary" onClick={() => submit({ id: active.id, correctId: active.correctId })} disabled={!sel?.selected}>Check</button>
+							</div>
 						)}
 						{sel?.submitted && (
 							<div className={`mt-2 text-sm ${sel.selected === active.correctId ? 'text-green-400' : 'text-red-400'}`}>

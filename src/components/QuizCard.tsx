@@ -65,7 +65,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       background: 'var(--panel)',
       border: '2px solid var(--border)',
       borderRadius: 12,
-      padding: 'clamp(16px, 3vw, 20px)',
+      padding: 'clamp(12px, 2.2vw, 16px)',
       boxShadow: '0 4px 16px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.7)',
       maxWidth: '100%',
       margin: '0 auto',
@@ -75,9 +75,9 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       position: 'relative',
     }}>
       <div style={{
-        fontSize: 'clamp(11px, 2.3vw, 13px)',
+        fontSize: 'clamp(10px, 2vw, 12px)',
         color: 'var(--secondary-dark)',
-        margin: '0 0 clamp(8px, 1.5vh, 10px)',
+        margin: '0 0 clamp(6px, 1.2vh, 8px)',
         fontWeight: 700,
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
@@ -85,9 +85,9 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         {question.category}
       </div>
       <h2 style={{
-        margin: '0 0 clamp(14px, 2.5vh, 18px)',
-        lineHeight: 1.45,
-        fontSize: 'clamp(16px, 3.5vw, 19px)',
+        margin: '0 0 clamp(10px, 2vh, 14px)',
+        lineHeight: 1.35,
+        fontSize: 'clamp(15px, 3.2vw, 18px)',
         fontWeight: 700,
         color: 'var(--text)',
         letterSpacing: '-0.02em',
@@ -95,7 +95,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         {question.questionText}
       </h2>
 
-      <div style={{ display: 'grid', gap: 'clamp(10px, 2vh, 12px)', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', alignItems: 'stretch' }}>
+      <div style={{ display: 'grid', gap: 'clamp(8px, 1.4vh, 10px)', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', alignItems: 'stretch' }}>
         {shuffledOptions.map((opt) => {
           let state: 'default' | 'selected' | 'correct' | 'incorrect' = 'default';
           if (submitted) {
@@ -116,14 +116,14 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
         })}
       </div>
 
-      <div style={{ marginTop: 'clamp(14px, 2.5vh, 18px)' }}>
+      <div style={{ marginTop: 'clamp(10px, 2vh, 14px)' }}>
         {!submitted && (
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+          <div className="action-bar" style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
             <button
               onClick={onSubmit}
               disabled={locked || selected == null}
               style={{
-                padding: 'clamp(10px, 2vh, 12px) clamp(20px, 4vw, 28px)',
+                padding: 'clamp(8px, 1.6vh, 10px) clamp(16px, 3.6vw, 24px)',
                 borderRadius: 8,
                 border: 'none',
                 background: locked || selected == null 
@@ -131,7 +131,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
                   : 'var(--primary)',
                 color: '#fff',
                 fontWeight: 700,
-                fontSize: 'clamp(14px, 3vw, 16px)',
+                fontSize: 'clamp(13px, 2.8vw, 15px)',
                 cursor: locked || selected == null ? 'not-allowed' : 'pointer',
                 boxShadow: locked || selected == null ? 'none' : '0 3px 10px var(--primary-20)',
               }}
@@ -143,7 +143,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
 
         {submitted && (
         <div className="bounce-in" style={{
-          padding: 'clamp(12px, 2.5vh, 16px)',
+          padding: 'clamp(10px, 2vh, 14px)',
           borderRadius: 12,
           background: 'linear-gradient(135deg, rgba(6, 34, 38, 0.92) 0%, rgba(16, 53, 60, 0.92) 100%)',
           border: '1.5px solid rgba(255,255,255,0.12)',
@@ -177,7 +177,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
             <div style={{ flex: 1 }}>
                       <div style={{
                         fontWeight: 800,
-                        fontSize: 'clamp(14px, 3vw, 16px)',
+                        fontSize: 'clamp(13px, 2.8vw, 15px)',
                         color: correct ? 'var(--primary-dark)' : '#8b3a35',
                         marginBottom: 8,
                         display: 'flex',
@@ -191,7 +191,7 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
                       <div style={{
                         color: '#ffffff',
                         lineHeight: 1.65,
-                        fontSize: 'clamp(13px, 2.8vw, 15px)',
+                        fontSize: 'clamp(12px, 2.5vw, 14px)',
                         fontWeight: 500,
                       }}>
                         {question.explanation}
@@ -223,17 +223,17 @@ export function QuizCard({ question, locked = false, initialSelection, onAnswere
       </div>
 
       {submitted && onNext && (
-        <div style={{ marginTop: 'clamp(12px, 2.5vh, 16px)', display: 'flex', justifyContent: 'center' }}>
+        <div className="action-bar" style={{ marginTop: 'clamp(10px, 2vh, 14px)', display: 'flex', justifyContent: 'center' }}>
           <button
             onClick={onNext}
             style={{
-              padding: 'clamp(10px, 2vh, 12px) clamp(24px, 5vw, 32px)',
+              padding: 'clamp(8px, 1.6vh, 10px) clamp(20px, 4vw, 28px)',
               borderRadius: 8,
               border: 'none',
               background: 'var(--primary)',
               color: '#fff',
               fontWeight: 700,
-              fontSize: 'clamp(14px, 3vw, 16px)',
+              fontSize: 'clamp(13px, 2.8vw, 15px)',
               cursor: 'pointer',
               boxShadow: '0 3px 12px var(--primary-20)',
             }}

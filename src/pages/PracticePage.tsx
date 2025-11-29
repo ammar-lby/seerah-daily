@@ -92,10 +92,12 @@ export function PracticePage() {
       display: 'flex',
       flexDirection: 'column',
       padding: '16px 24px',
+      position: 'relative',
       maxWidth: 900,
       margin: '0 auto',
       width: '100%',
     }}>
+      
       <div style={{ marginBottom: 16 }}>
         <h3 style={{
           margin: '0 0 12px',
@@ -108,7 +110,7 @@ export function PracticePage() {
         </h3>
 
         {/* Filters */}
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 700 }}>Topic</span>
             <select
@@ -155,40 +157,47 @@ export function PracticePage() {
         <>
           <QuizCard key={q.id} question={q} />
 
-          <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'center' }}>
+          {/* Arrow pager directly below quiz */}
+          <div style={{ display: 'flex', gap: 12, marginTop: 10, justifyContent: 'center' }}>
             <button
               onClick={prev}
               disabled={idx === 0}
               style={{
-                padding: '10px 20px',
+                padding: '8px 14px',
                 borderRadius: 8,
                 border: 'none',
-                background: idx === 0 ? 'var(--muted)' : 'var(--primary)',
-                color: '#fff',
+                background: 'var(--surface)',
+                color: idx === 0 ? 'var(--muted)' : 'var(--text)',
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: 16,
                 cursor: idx === 0 ? 'not-allowed' : 'pointer',
-                opacity: idx === 0 ? 0.5 : 1,
+                opacity: 1,
+                boxShadow: '0 1px 4px var(--shadow)',
+                border: '1px solid var(--border)',
               }}
+              aria-label="Previous question"
             >
-              ← Previous
+              ←
             </button>
             <button
               onClick={next}
               disabled={idx === items.length - 1}
               style={{
-                padding: '10px 20px',
+                padding: '8px 14px',
                 borderRadius: 8,
                 border: 'none',
-                background: idx === items.length - 1 ? 'var(--muted)' : 'var(--primary)',
-                color: '#fff',
+                background: 'var(--surface)',
+                color: idx === items.length - 1 ? 'var(--muted)' : 'var(--text)',
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: 16,
                 cursor: idx === items.length - 1 ? 'not-allowed' : 'pointer',
-                opacity: idx === items.length - 1 ? 0.5 : 1,
+                opacity: 1,
+                boxShadow: '0 1px 4px var(--shadow)',
+                border: '1px solid var(--border)',
               }}
+              aria-label="Next question"
             >
-              Next →
+              →
             </button>
           </div>
         </>
